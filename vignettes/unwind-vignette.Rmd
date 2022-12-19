@@ -30,7 +30,25 @@ The unwind package aims to improve upon the 'fun' package's version of Minesweep
 
 # Utilizing Package Content
 
-enter instructions for install here...     
+Package files for unwind are located on github at this link: <https://github.com/htgraham4562/unwind/>. In order to use the unwind package on the RStudio platform, the following code must be submitted in the user's R console:  
+
+```{r, include = T, eval = F}
+# only run install.packages if devtools has not already been downloaded
+install.packages(devtools)
+library(devtools)
+devtools::install_github('htgraham4562/unwind')
+  # Note: push enter to skip package updates or update desired packages  
+library(unwind)
+```
+
+Once these commands have been run in the console, the user can call the game modules using the following functions:  
+
+```{r, include = T, eval = F}
+tictactoe()
+minesweeper()
+```
+
+Detailed tutorials of each game function are found below:  
 
 ## TIC-TAC-TOE   
 
@@ -265,6 +283,8 @@ Future work on the unwind package may the following:
 * In both Minesweeper and Tic-Tac-Toe modules, the playing grid disappears when the outcome of the game has been determined. This can be slightly jarring for the user, especially in Tic-Tac-Toe where the user may not have seen the winning move before it is played. Future plans would allow the grid to be visible after the game has completed but not allow the user to continue to make moves on the game board. This would be accomplished with a dynamic binary logical object which determines whether the game has been completed, and therefore, whether a move can be made.  
 
 * In both Minesweeper and Tic-Tac-Toe modules, the user input for the seed value is a textInput shiny object. This is not optimal since a seed value needs to be numeric to be valid. However, simply changing the input to a numericInput shiny objects requires that the developer specify a default value. In the unwind package, we want to use the system time (as.numeric(Sys.time())) for the default seed value every time the 'START GAME' button is pressed. This is not entirely straightforward since the default numericInput value is only specified once. Some research and use-case testing needs to be done to address this potential bug.  
+
+* In both Minesweeper and Tic-Tac-Toe modules, only completed games get written to the log. This is because the end of a game is a natural breaking point to push the log to the global environment. However, the log files would be more complete if terminated games were included in the game logs. This could be accomplished by checking whether the previous game has completed when the 'START GAME' button is pressed. If not, an 'incomplete game' entry in the game log should be written and pushed to the global environment. The only hole with this plan is if a game is terminated by closing the module window which would not have a straightforward way of being accounted for in the game log.  
 
 * The Minesweeper module of the unwind package has a tendency to run slowly. Start-up of the game board is particularly slow which could lead the user to thinking that the game is not loading. A temporary quick-fix could be to display a message while the board creation is ongoing. However, ideally optimization options to creating the game board could be explored. The current code loops through every cell in the grid before the game starts to pre-determine all of the true cell values. One alternative is to only determine a cell's value when the user clicks on that cell. This would save some time up front but might make the user's solve time a little longer. Some efficiency testing is needed to determine an ideal solution.   
 
